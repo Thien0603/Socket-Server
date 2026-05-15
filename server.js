@@ -27,6 +27,17 @@ io.on('connection', (socket) => {
         socket.to(`note_${data.noteId}`).emit('note-updated', data.content);
     });
 
+    // BẠN THÊM 2 ĐOẠN NÀY VÀO ĐÂY:
+    // 1. Khi có người xóa ảnh
+    socket.on('delete-image', (data) => {
+        socket.to(`note_${data.dataNoteId}`).emit('image-deleted', data.imageId);
+    });
+
+    // 2. Khi có người thêm ảnh mới
+    socket.on('update-images', (data) => {
+        socket.to(`note_${data.dataNoteId}`).emit('images-updated');
+    });
+
     socket.on('disconnect', () => {
         console.log('User disconnected');
     });
